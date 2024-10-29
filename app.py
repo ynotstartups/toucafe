@@ -10,50 +10,15 @@ def to_id(title: str) -> str:
 
 
 def recipe_to_html(recipe) -> str:
-    tags_lis_html = "".join(
-        [
-            f"<li><a href='/api/tag/{to_id(tag)}'>{tag}</a></li>"
-            for tag in recipe.get("tags", [])
-        ]
-    )
-    ingredients_lis_html = "".join(
-        [f"<li>{i}</li>" for i in recipe.get("ingredients", [])]
-    )
     instructions_lis_html = "".join(
         [f"<li>{i}</li>" for i in recipe.get("instructions", [])]
     )
     webpage_body = f"""
         <body>
             <h1>{recipe["title"]}</h1>
-            <h2>Tags</h2>
-            <ul>
-                {tags_lis_html}
-            </ul>
-            <h2>Ingredients</h2>
-            <ul>
-                {ingredients_lis_html}
-            </ul>
             <h2>Instructions</h2>
             <ul>
                 {instructions_lis_html}
-            </ul>
-        </body>
-    """
-    return WEBPAGE_START + webpage_body + WEBPAGE_END
-
-
-def recipes_to_html(recipes) -> str:
-    recipes_lis = []
-    for recipe in recipes:
-        title = recipe["title"]
-        link = f"/api/recipe/{to_id(recipe['title'])}"
-        recipes_lis.append(f"<li><a href='{link}'>{title}</a></li>")
-    recipes_lis_html = "".join(recipes_lis)
-    webpage_body = f"""
-        <body>
-            <h1>Recipes</h1>
-            <ul>
-                {recipes_lis_html}
             </ul>
         </body>
     """
@@ -78,15 +43,18 @@ def recipes_to_menu_page(recipes) -> str:
         last_menu_subcategory = menu_subcategory
         menu_subcategory = recipe.get("menu_subcategory", None)
         if menu_subcategory != last_menu_subcategory:
-            menu_html += f"<h2>{menu_subcategory}</h2>"
+            # menu_html += f"<h4>{menu_subcategory}</h4>"
+            if last_menu_subcategory is not None:
+                menu_html += f"<br>"
 
         title = recipe["title"]
-        link = f"/api/recipe/{to_id(recipe['title'])}"
-        # menu_html += f"<li><a href='{link}'>{title}</a></li>"
-        menu_html += f"<li>{title}</li>"
+        if "instructions" in recipe:
+            link = f"/api/recipe/{to_id(recipe['title'])}"
+            menu_html += f"<a href='{link}'>{title}</a><p>, </p>"
+        else:
+            menu_html += f"<p>{title}, </p>"
     webpage_body = f"""
         <body>
-            <h1>Menu</h1>
             {menu_html}
         </body>
     """
@@ -108,18 +76,6 @@ def recipe(title_id):
             return response_html(html)
 
 
-# TODO: implement me
-@app.route("/tag/{tag_id}")
-def tag(tag_id):
-    recipes = []
-    for recipe in RECIPES:
-        for tag in recipe["tags"]:
-            if to_id(tag) == tag_id:
-                recipes.append(recipe)
-    html = recipes_to_html(recipes)
-    return response_html(html)
-
-
 def response_html(html):
     return Response(
         html,
@@ -137,7 +93,7 @@ WEBPAGE_START = """
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Recipes</title>
+        <title>Menu</title>
         <style>
             body {
                 font-family: Arial, sans-serif;
@@ -156,6 +112,9 @@ WEBPAGE_START = """
             li::before {
                 content: "• ";
                 color: #FF6347;
+            }
+            p, a {
+                display: inline;
             }
         </style>
     </head>
@@ -177,6 +136,19 @@ RECIPES = [
         "menu_category": "前菜",
     },
     # 肉类
+    {
+        "title": "泰国打抛猪肉",
+        "menu_category": "肉类",
+        "menu_subcategory": "猪",
+        "instructions": [
+            "很多蒜末炒香",
+            "加小米辣",
+            "加肉末",
+            "生抽老抽鱼露汤盐",
+            "加罗勒",
+            "煎流心蛋",
+        ],
+    },
     {
         "title": "蜜汁叉烧",
         "menu_category": "肉类",
@@ -233,9 +205,15 @@ RECIPES = [
         "menu_subcategory": "鸡",
     },
     {
-        "title": "炸鸡",
+        "title": "辣子鸡",
         "menu_category": "肉类",
         "menu_subcategory": "鸡",
+        "instructions": [
+            "腌鸡",
+            "炸鸡",
+            "炒鸡",
+            "加葱姜蒜很多花椒小米辣椒",
+        ],
     },
     {
         "title": "油封鸭",
@@ -321,7 +299,7 @@ RECIPES = [
     {
         "title": "蒸茄子炒菜",
         "menu_category": "蔬菜类",
-        "menu_subcategory": "蔬菜类",
+        "menu_subcategory": "茄子",
     },
     {
         "title": "鱼香茄子",
@@ -564,6 +542,13 @@ RECIPES = [
         "menu_category": "甜品",
     },
     # 饮品
+    {
+        "title": "好喝茶",
+        "menu_category": "饮品",
+        "instructions": [
+            "桂花,枸杞,雪梨干,切片红枣,龙眼干",
+        ],
+    },
     {
         "title": "冷萃咖啡",
         "menu_category": "饮品",
