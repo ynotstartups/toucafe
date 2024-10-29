@@ -1,30 +1,27 @@
 from chalice import Chalice, Response
+from base64 import b64encode
 
 app = Chalice(app_name="helloworld")
 app.debug = True
 
 
 def to_id(title: str) -> str:
-    return title.replace(" ", "_").lower()
-
-
-# def recipe_to_title_and_link(recipe) -> dict[str, str]:
-#     return {
-#         "title": recipe["title"],
-#         "link": f"/api/recipe/{to_id(recipe['title'])}",
-#     }
+    return b64encode(title.encode("utf-8")).decode("utf-8")
 
 
 def recipe_to_html(recipe) -> str:
-    # TODO a link to tag
     tags_lis_html = "".join(
         [
             f"<li><a href='/api/tag/{to_id(tag)}'>{tag}</a></li>"
-            for tag in recipe["tags"]
+            for tag in recipe.get("tags", [])
         ]
     )
-    ingredients_lis_html = "".join([f"<li>{i}</li>" for i in recipe["ingredients"]])
-    instructions_lis_html = "".join([f"<li>{i}</li>" for i in recipe["instructions"]])
+    ingredients_lis_html = "".join(
+        [f"<li>{i}</li>" for i in recipe.get("ingredients", [])]
+    )
+    instructions_lis_html = "".join(
+        [f"<li>{i}</li>" for i in recipe.get("instructions", [])]
+    )
     webpage_body = f"""
         <body>
             <h1>{recipe["title"]}</h1>
@@ -63,12 +60,46 @@ def recipes_to_html(recipes) -> str:
     return WEBPAGE_START + webpage_body + WEBPAGE_END
 
 
+def recipes_to_menu_page(recipes) -> str:
+    menu_html = ""
+
+    menu_category = None
+    menu_subcategory = None
+    for recipe in recipes:
+        # handle category logic
+        last_menu_category = menu_category
+        menu_category = recipe["menu_category"]
+        if menu_category != last_menu_category:
+            # New Category
+            menu_html += f"<h1>{menu_category}</h1>"
+            menu_subcategory = None
+
+        # handle sub_category logic
+        last_menu_subcategory = menu_subcategory
+        menu_subcategory = recipe.get("menu_subcategory", None)
+        if menu_subcategory != last_menu_subcategory:
+            menu_html += f"<h2>{menu_subcategory}</h2>"
+
+        title = recipe["title"]
+        link = f"/api/recipe/{to_id(recipe['title'])}"
+        # menu_html += f"<li><a href='{link}'>{title}</a></li>"
+        menu_html += f"<li>{title}</li>"
+    webpage_body = f"""
+        <body>
+            <h1>Menu</h1>
+            {menu_html}
+        </body>
+    """
+    return WEBPAGE_START + webpage_body + WEBPAGE_END
+
+
 @app.route("/")
 def index():
-    html = recipes_to_html(RECIPES)
+    html = recipes_to_menu_page(RECIPES)
     return response_html(html)
 
 
+# TODO: implement me
 @app.route("/recipe/{title_id}")
 def recipe(title_id):
     for recipe in RECIPES:
@@ -77,6 +108,7 @@ def recipe(title_id):
             return response_html(html)
 
 
+# TODO: implement me
 @app.route("/tag/{tag_id}")
 def tag(tag_id):
     recipes = []
@@ -117,11 +149,11 @@ WEBPAGE_START = """
             h1, h2 {
                 color: #333;
             }
-            ul {
+            li {
                 list-style-type: none;
                 padding: 0;
             }
-            ul li::before {
+            li::before {
                 content: "• ";
                 color: #FF6347;
             }
@@ -131,184 +163,482 @@ WEBPAGE_START = """
 WEBPAGE_END = "</html>"
 
 RECIPES = [
+    # 前菜
     {
-        "title": "Spaghetti Carbonara",
-        "tags": ["Italian", "Pasta", "Quick", "Dinner"],
-        "ingredients": [
-            "200g spaghetti",
-            "100g pancetta",
-            "2 large eggs",
-            "50g grated Parmesan",
-            "Salt",
-            "Pepper",
-        ],
-        "instructions": [
-            "Boil spaghetti in salted water according to package instructions.",
-            "In a pan, cook pancetta until crisp.",
-            "Whisk eggs and Parmesan together in a bowl.",
-            "Drain spaghetti and combine with pancetta.",
-            "Remove from heat, add egg mixture, and stir quickly.",
-            "Season with salt and pepper, serve immediately.",
-        ],
+        "title": "西班牙烘蛋",
+        "menu_category": "前菜",
     },
     {
-        "title": "Chicken Stir-Fry",
-        "tags": ["Asian", "Quick", "Healthy", "Gluten-Free"],
-        "ingredients": [
-            "1 lb chicken breast, sliced",
-            "1 bell pepper, sliced",
-            "1 onion, sliced",
-            "2 cups broccoli florets",
-            "2 tbsp soy sauce",
-            "1 tbsp olive oil",
-            "1 clove garlic, minced",
-        ],
-        "instructions": [
-            "Heat oil in a pan, add garlic and cook until fragrant.",
-            "Add chicken and cook until browned.",
-            "Add bell pepper, onion, and broccoli; stir-fry until vegetables are tender.",
-            "Add soy sauce and stir to coat evenly.",
-            "Serve hot.",
-        ],
+        "title": "韩式海鲜泡菜饼",
+        "menu_category": "前菜",
     },
     {
-        "title": "Vegetable Soup",
-        "tags": ["Vegan", "Healthy", "Gluten-Free", "Soup"],
-        "ingredients": [
-            "1 tbsp olive oil",
-            "1 onion, diced",
-            "2 carrots, diced",
-            "2 celery stalks, diced",
-            "3 cups vegetable broth",
-            "1 can diced tomatoes",
-            "1 cup green beans",
-            "Salt and pepper",
-        ],
-        "instructions": [
-            "Heat oil in a pot and add onion, carrots, and celery; cook until softened.",
-            "Add broth, tomatoes, and green beans; bring to a boil.",
-            "Simmer for 20 minutes until vegetables are tender.",
-            "Season with salt and pepper and serve hot.",
-        ],
+        "title": "日式土豆泥沙拉",
+        "menu_category": "前菜",
+    },
+    # 肉类
+    {
+        "title": "蜜汁叉烧",
+        "menu_category": "肉类",
+        "menu_subcategory": "猪",
     },
     {
-        "title": "Pancakes",
-        "tags": ["Breakfast", "Sweet", "Quick", "Vegetarian"],
-        "ingredients": [
-            "1 cup flour",
-            "1 tbsp sugar",
-            "1 tsp baking powder",
-            "1/2 tsp salt",
-            "3/4 cup milk",
-            "1 egg",
-            "2 tbsp melted butter",
-        ],
-        "instructions": [
-            "Mix flour, sugar, baking powder, and salt in a bowl.",
-            "In another bowl, whisk milk, egg, and melted butter.",
-            "Combine wet and dry ingredients until smooth.",
-            "Pour batter onto a hot griddle and cook until bubbles form, then flip.",
-            "Serve warm with syrup or toppings of choice.",
-        ],
+        "title": "梅菜蒸肉饼",
+        "menu_category": "肉类",
+        "menu_subcategory": "猪",
     },
     {
-        "title": "Avocado Toast",
-        "tags": ["Breakfast", "Quick", "Vegetarian", "Healthy"],
-        "ingredients": [
-            "1 ripe avocado",
-            "2 slices of bread",
-            "Salt",
-            "Pepper",
-            "Red chili flakes",
-        ],
-        "instructions": [
-            "Toast the bread slices to your liking.",
-            "Mash avocado in a bowl, and season with salt and pepper.",
-            "Spread avocado on toast and sprinkle with red chili flakes.",
-            "Serve immediately.",
-        ],
+        "title": "酸菜炖排骨",
+        "menu_category": "肉类",
+        "menu_subcategory": "猪",
     },
     {
-        "title": "Chocolate Chip Cookies",
-        "tags": ["Dessert", "Baking", "Sweet", "Vegetarian"],
-        "ingredients": [
-            "1 cup butter, softened",
-            "1 cup sugar",
-            "1 cup brown sugar",
-            "2 eggs",
-            "2 tsp vanilla extract",
-            "3 cups flour",
-            "1 tsp baking soda",
-            "1/2 tsp salt",
-            "2 cups chocolate chips",
-        ],
-        "instructions": [
-            "Preheat oven to 350°F (175°C).",
-            "Cream butter and sugars together.",
-            "Add eggs and vanilla, mix well.",
-            "Add flour, baking soda, and salt, mix until combined.",
-            "Fold in chocolate chips.",
-            "Drop spoonfuls of dough onto baking sheet and bake for 10-12 minutes.",
-            "Cool on a wire rack.",
-        ],
+        "title": "咕噜肉",
+        "menu_category": "肉类",
+        "menu_subcategory": "猪",
     },
     {
-        "title": "Grilled Cheese Sandwich",
-        "tags": ["Lunch", "Quick", "Comfort Food", "Vegetarian"],
-        "ingredients": ["2 slices of bread", "2 slices of cheese", "1 tbsp butter"],
-        "instructions": [
-            "Butter one side of each bread slice.",
-            "Place cheese between the unbuttered sides of the bread.",
-            "Cook in a skillet over medium heat until golden on both sides and cheese is melted.",
-            "Serve warm.",
-        ],
+        "title": "炸猪扒",
+        "menu_category": "肉类",
+        "menu_subcategory": "猪",
     },
     {
-        "title": "Caesar Salad",
-        "tags": ["Salad", "Healthy", "Lunch", "Gluten-Free"],
-        "ingredients": [
-            "1 head of romaine lettuce, chopped",
-            "1/4 cup grated Parmesan",
-            "1/2 cup croutons",
-            "Caesar dressing to taste",
-        ],
-        "instructions": [
-            "In a large bowl, combine lettuce, Parmesan, and croutons.",
-            "Drizzle with Caesar dressing and toss to coat.",
-            "Serve chilled.",
-        ],
+        "title": "葱姜鸡",
+        "menu_category": "肉类",
+        "menu_subcategory": "鸡",
     },
     {
-        "title": "Banana Smoothie",
-        "tags": ["Drink", "Healthy", "Quick", "Vegan"],
-        "ingredients": [
-            "1 banana",
-            "1 cup almond milk",
-            "1 tbsp peanut butter",
-            "1 tsp honey (optional)",
-        ],
-        "instructions": [
-            "Combine all ingredients in a blender.",
-            "Blend until smooth.",
-            "Pour into a glass and serve immediately.",
-        ],
+        "title": "口水鸡",
+        "menu_category": "肉类",
+        "menu_subcategory": "鸡",
     },
     {
-        "title": "Tacos",
-        "tags": ["Mexican", "Quick", "Dinner", "Gluten-Free"],
-        "ingredients": [
-            "8 small corn tortillas",
-            "1 lb ground beef or turkey",
-            "1 packet taco seasoning",
-            "1 cup shredded lettuce",
-            "1/2 cup diced tomatoes",
-            "1/2 cup shredded cheese",
-        ],
-        "instructions": [
-            "Cook ground meat in a pan over medium heat, add taco seasoning according to packet instructions.",
-            "Warm tortillas in a separate pan.",
-            "Assemble tacos with meat, lettuce, tomatoes, and cheese.",
-            "Serve immediately.",
-        ],
+        "title": "啤酒鸡",
+        "menu_category": "肉类",
+        "menu_subcategory": "鸡",
+    },
+    {
+        "title": "钵钵鸡",
+        "menu_category": "肉类",
+        "menu_subcategory": "鸡",
+    },
+    {
+        "title": "可乐鸡翅",
+        "menu_category": "肉类",
+        "menu_subcategory": "鸡",
+    },
+    {
+        "title": "香菇蒸鸡",
+        "menu_category": "肉类",
+        "menu_subcategory": "鸡",
+    },
+    {
+        "title": "炸鸡",
+        "menu_category": "肉类",
+        "menu_subcategory": "鸡",
+    },
+    {
+        "title": "油封鸭",
+        "menu_category": "肉类",
+        "menu_subcategory": "鸭",
+    },
+    {
+        "title": "土豆焖鸭",
+        "menu_category": "肉类",
+        "menu_subcategory": "鸭",
+    },
+    {
+        "title": "酸梅鸭",
+        "menu_category": "肉类",
+        "menu_subcategory": "鸭",
+    },
+    {
+        "title": "烤箱烧烤羊排",
+        "menu_category": "肉类",
+        "menu_subcategory": "羊",
+    },
+    {
+        "title": "孜然羊肉",
+        "menu_category": "肉类",
+        "menu_subcategory": "羊",
+    },
+    {
+        "title": "红烧牛肉",
+        "menu_category": "肉类",
+        "menu_subcategory": "牛",
+    },
+    {
+        "title": "水煮牛肉",
+        "menu_category": "肉类",
+        "menu_subcategory": "牛",
+    },
+    {
+        "title": "小炒黄牛肉",
+        "menu_category": "肉类",
+        "menu_subcategory": "牛",
+    },
+    {
+        "title": "Slow bake beef short rib",
+        "menu_category": "肉类",
+        "menu_subcategory": "牛",
+    },
+    {
+        "title": "土豆片炒肉",
+        "menu_category": "肉类",
+        "menu_subcategory": "Misc",
+    },
+    {
+        "title": "煎香五花肉炒菜",
+        "menu_category": "肉类",
+        "menu_subcategory": "Misc",
+    },
+    # 海鲜类
+    {
+        "title": "广式蒸鱼",
+        "menu_category": "海鲜类",
+    },
+    {
+        "title": "剁椒蒸鱼柳",
+        "menu_category": "海鲜类",
+    },
+    {
+        "title": "酸菜鱼",
+        "menu_category": "海鲜类",
+    },
+    {
+        "title": "虾仁滑蛋",
+        "menu_category": "海鲜类",
+    },
+    {
+        "title": "蒜蓉扇贝",
+        "menu_category": "海鲜类",
+    },
+    {
+        "title": "爆炒花甲",
+        "menu_category": "海鲜类",
+    },
+    # 蔬菜类
+    {
+        "title": "蒸茄子炒菜",
+        "menu_category": "蔬菜类",
+        "menu_subcategory": "蔬菜类",
+    },
+    {
+        "title": "鱼香茄子",
+        "menu_category": "蔬菜类",
+        "menu_subcategory": "茄子",
+    },
+    {
+        "title": "日式茄子",
+        "menu_category": "蔬菜类",
+        "menu_subcategory": "茄子",
+    },
+    {
+        "title": "微波炉茄子",
+        "menu_category": "蔬菜类",
+        "menu_subcategory": "茄子",
+    },
+    {
+        "title": "蒸水蛋",
+        "menu_category": "蔬菜类",
+        "menu_subcategory": "鸡蛋",
+    },
+    {
+        "title": "茶叶蛋",
+        "menu_category": "蔬菜类",
+        "menu_subcategory": "鸡蛋",
+    },
+    {
+        "title": "炸蛋",
+        "menu_category": "蔬菜类",
+        "menu_subcategory": "鸡蛋",
+    },
+    {
+        "title": "番茄炒蛋",
+        "menu_category": "蔬菜类",
+        "menu_subcategory": "鸡蛋",
+    },
+    {
+        "title": "韭黄炒蛋",
+        "menu_category": "蔬菜类",
+        "menu_subcategory": "鸡蛋",
+    },
+    {
+        "title": "炸薯条",
+        "menu_category": "蔬菜类",
+        "menu_subcategory": "Misc",
+    },
+    {
+        "title": "酸菜炒/炖粉条",
+        "menu_category": "蔬菜类",
+        "menu_subcategory": "Misc",
+    },
+    {
+        "title": "酸笋炒/炖肉",
+        "menu_category": "蔬菜类",
+        "menu_subcategory": "Misc",
+    },
+    {
+        "title": "干锅花菜",
+        "menu_category": "蔬菜类",
+        "menu_subcategory": "Misc",
+    },
+    {
+        "title": "干锅卷心菜",
+        "menu_category": "蔬菜类",
+        "menu_subcategory": "Misc",
+    },
+    {
+        "title": "腐乳通菜心",
+        "menu_category": "蔬菜类",
+        "menu_subcategory": "Misc",
+    },
+    {
+        "title": "炒生菜",
+        "menu_category": "蔬菜类",
+        "menu_subcategory": "Misc",
+    },
+    {
+        "title": "西班牙小辣椒",
+        "menu_category": "蔬菜类",
+        "menu_subcategory": "Misc",
+    },
+    {
+        "title": "干煸豆角肉末",
+        "menu_category": "蔬菜类",
+        "menu_subcategory": "Misc",
+    },
+    {
+        "title": "麻婆豆腐",
+        "menu_category": "蔬菜类",
+        "menu_subcategory": "Misc",
+    },
+    {
+        "title": "老奶洋芋",
+        "menu_category": "蔬菜类",
+        "menu_subcategory": "Misc",
+    },
+    {
+        "title": "steam artichoke",
+        "menu_category": "蔬菜类",
+        "menu_subcategory": "Misc",
+    },
+    # 汤类
+    {
+        "title": "土豆胡萝卜玉米排骨汤",
+        "menu_category": "汤类",
+    },
+    {
+        "title": "赤小豆猪肉汤",
+        "menu_category": "汤类",
+    },
+    {
+        "title": "鸡汤",
+        "menu_category": "汤类",
+    },
+    {
+        "title": "大酱汤",
+        "menu_category": "汤类",
+    },
+    {
+        "title": "关东煮",
+        "menu_category": "汤类",
+    },
+    {
+        "title": "鱼汤",
+        "menu_category": "汤类",
+    },
+    {
+        "title": "罗宋汤",
+        "menu_category": "汤类",
+    },
+    {
+        "title": "海鲜冬阴功汤",
+        "menu_category": "汤类",
+    },
+    # 点心
+    {
+        "title": "葱油饼",
+        "menu_category": "点心",
+    },
+    {
+        "title": "伦教糕",
+        "menu_category": "点心",
+    },
+    {
+        "title": "萝卜糕",
+        "menu_category": "点心",
+    },
+    {
+        "title": "鸡蛋糕",
+        "menu_category": "点心",
+    },
+    {
+        "title": "鸡蛋肠粉",
+        "menu_category": "点心",
+    },
+    {
+        "title": "绿豆糕",
+        "menu_category": "点心",
+    },
+    # 主食
+    {
+        "title": "日本咖喱饭",
+        "menu_category": "主食",
+    },
+    {
+        "title": "卤肉饭",
+        "menu_category": "主食",
+    },
+    {
+        "title": "韩国拌饭",
+        "menu_category": "主食",
+    },
+    {
+        "title": "炒米粉",
+        "menu_category": "主食",
+    },
+    {
+        "title": "越南粉",
+        "menu_category": "主食",
+    },
+    {
+        "title": "咖喱奶油乌冬",
+        "menu_category": "主食",
+    },
+    {
+        "title": "墨鱼汁意面",
+        "menu_category": "主食",
+    },
+    {
+        "title": "蚝粥",
+        "menu_category": "主食",
+    },
+    {
+        "title": "汉堡",
+        "menu_category": "主食",
+    },
+    {
+        "title": "比萨",
+        "menu_category": "主食",
+    },
+    {
+        "title": "手工面条",
+        "menu_category": "主食",
+    },
+    {
+        "title": "手工饺子",
+        "menu_category": "主食",
+    },
+    {
+        "title": "手工包子",
+        "menu_category": "主食",
+    },
+    {
+        "title": "日式面包",
+        "menu_category": "主食",
+    },
+    # 甜品
+    {
+        "title": "苹果面包",
+        "menu_category": "甜品",
+    },
+    {
+        "title": "紫薯面包",
+        "menu_category": "甜品",
+    },
+    {
+        "title": "毛巾蛋糕卷",
+        "menu_category": "甜品",
+    },
+    {
+        "title": "草莓奶油蛋糕",
+        "menu_category": "甜品",
+    },
+    {
+        "title": "泡芙",
+        "menu_category": "甜品",
+    },
+    {
+        "title": "曲奇",
+        "menu_category": "甜品",
+    },
+    # 饮品
+    {
+        "title": "冷萃咖啡",
+        "menu_category": "饮品",
+    },
+    {
+        "title": "手冲咖啡",
+        "menu_category": "饮品",
+    },
+    {
+        "title": "越南热咖啡",
+        "menu_category": "饮品",
+    },
+    {
+        "title": "热红酒",
+        "menu_category": "饮品",
+    },
+    {
+        "title": "奶盖奶茶",
+        "menu_category": "饮品",
+    },
+    # 早餐
+    {
+        "title": "包子",
+        "menu_category": "早餐",
+    },
+    {
+        "title": "煎饺",
+        "menu_category": "早餐",
+    },
+    {
+        "title": "炒粉",
+        "menu_category": "早餐",
+    },
+    {
+        "title": "英式玛芬",
+        "menu_category": "早餐",
+    },
+    {
+        "title": "拌面",
+        "menu_category": "早餐",
+    },
+    {
+        "title": "麦当劳早餐",
+        "menu_category": "早餐",
+    },
+    {
+        "title": "土豆饼",
+        "menu_category": "早餐",
+    },
+    {
+        "title": "珍珠鸡",
+        "menu_category": "早餐",
+    },
+    {
+        "title": "方便面",
+        "menu_category": "早餐",
+    },
+    {
+        "title": "小米粥",
+        "menu_category": "早餐",
+    },
+    {
+        "title": "北非蛋",
+        "menu_category": "早餐",
+    },
+    {
+        "title": "牛油果三文鱼面包",
+        "menu_category": "早餐",
+    },
+    {
+        "title": "金枪鱼玉米法棍",
+        "menu_category": "早餐",
+    },
+    {
+        "title": "冬阴功炒粉",
+        "menu_category": "早餐",
     },
 ]
