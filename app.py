@@ -5,18 +5,34 @@ app = Chalice(app_name="helloworld")
 app.debug = True
 
 
-def to_id(title: str) -> str:
-    return b64encode(title.encode("utf-8")).decode("utf-8")
+@app.route("/")
+def index():
+    html = menu_page(RECIPES)
+    return response_html(html)
 
 
-def recipe_to_html(recipe) -> str:
+@app.route("/recipes")
+def recipes():
+    html = recipes_page(RECIPES)
+    return response_html(html)
+
+
+@app.route("/recipes/{title_id}")
+def recipe(title_id):
+    for recipe in RECIPES:
+        if to_id(recipe["title"]) == title_id:
+            html = recipe_page(recipe)
+            return response_html(html)
+
+
+def recipe_page(recipe) -> str:
     instructions_lis_html = "".join(
         [f"<li>{i}</li>" for i in recipe.get("instructions", [])]
     )
     webpage_body = f"""
         <body>
             <h1>{recipe["title"]}</h1>
-            <h2>Instructions</h2>
+            <h2>步骤</h2>
             <ul>
                 {instructions_lis_html}
             </ul>
@@ -25,7 +41,24 @@ def recipe_to_html(recipe) -> str:
     return WEBPAGE_START + webpage_body + WEBPAGE_END
 
 
-def recipes_to_menu_page(recipes) -> str:
+def recipes_page(recipes) -> str:
+    recipes_html = ""
+    recipes_with_instructions = [i for i in recipes if "instructions" in i]
+    for recipe in recipes_with_instructions:
+        recipes_html += f"<h1>{recipe['title']}</h1>"
+        recipes_html += "<h2>步骤</h2>"
+        for instruction in recipe["instructions"]:
+            recipes_html += f"<li>{instruction}</li>"
+
+    webpage_body = f"""
+        <body>
+            {recipes_html}
+        </body>
+    """
+    return WEBPAGE_START + webpage_body + WEBPAGE_END
+
+
+def menu_page(recipes) -> str:
     menu_html = ""
 
     menu_category = None
@@ -49,7 +82,7 @@ def recipes_to_menu_page(recipes) -> str:
 
         title = recipe["title"]
         if "instructions" in recipe:
-            link = f"/api/recipe/{to_id(recipe['title'])}"
+            link = f"/api/recipes/{to_id(recipe['title'])}"
             menu_html += f"<a href='{link}'>{title}</a><p>, </p>"
         else:
             menu_html += f"<p>{title}, </p>"
@@ -61,19 +94,8 @@ def recipes_to_menu_page(recipes) -> str:
     return WEBPAGE_START + webpage_body + WEBPAGE_END
 
 
-@app.route("/")
-def index():
-    html = recipes_to_menu_page(RECIPES)
-    return response_html(html)
-
-
-# TODO: implement me
-@app.route("/recipe/{title_id}")
-def recipe(title_id):
-    for recipe in RECIPES:
-        if to_id(recipe["title"]) == title_id:
-            html = recipe_to_html(recipe)
-            return response_html(html)
+def to_id(title: str) -> str:
+    return b64encode(title.encode("utf-8")).decode("utf-8")
 
 
 def response_html(html):
@@ -93,7 +115,7 @@ WEBPAGE_START = """
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Menu</title>
+        <title>菜单</title>
         <style>
             body {
                 font-family: Arial, sans-serif;
@@ -104,6 +126,10 @@ WEBPAGE_START = """
             }
             h1, h2 {
                 color: #333;
+            }
+            nav {
+                display: flex;
+                justify-content: space-around;
             }
             li {
                 list-style-type: none;
@@ -117,6 +143,10 @@ WEBPAGE_START = """
                 display: inline;
             }
         </style>
+        <nav>
+            <a href="/api/">Menu</a>
+            <a href="/api/recipes">Recipes</a>
+        </nav>
     </head>
     """
 WEBPAGE_END = "</html>"
