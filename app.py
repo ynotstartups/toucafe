@@ -169,9 +169,9 @@ WEBPAGE_START = """
             }
         </style>
         <nav>
-            <a href="/">Menu</a>
-            <a href="/recipes">Recipes</a>
-            <a href="/gallery">Gallery</a>
+            <a href="/">菜单</a>
+            <a href="/recipes">菜谱</a>
+            <a href="/gallery">图册</a>
         </nav>
     </head>
     """
@@ -297,6 +297,17 @@ RECIPES = [
         "title": "孜然羊肉",
         "menu_category": "肉类",
         "menu_subcategory": "羊",
+        "instructions": [
+            "肉切块或切",
+            "腌肉，孜然粉，五香粉，料酒",
+            "热油，加花椒八角，油香后捞出",
+            "放入姜丝，葱花炒香",
+            "加肉翻炒变色",
+            "加糖，酱油，白酒",
+            "这时有汤汁，加入孜然，芝麻，辣椒面",
+            "汤没有时加盐,蒜片",
+            "关火加香菜",
+        ],
     },
     {
         "title": "红烧牛肉",
@@ -337,6 +348,28 @@ RECIPES = [
         "title": "煎香五花肉炒菜",
         "menu_category": "肉类",
         "menu_subcategory": "Misc",
+    },
+    {
+        "title": "炸鱼酸菜泡椒麻辣香锅",
+        "menu_category": "肉类",
+        "menu_subcategory": "Misc",
+        "instructions": [
+            "腌鱼",
+            "炸鱼",
+            "豆瓣酱炒红油加香料",
+            "加酸菜泡椒和汁",
+            "加入鱼",
+            "关火加香菜",
+        ],
+    },
+    {
+        "title": "麻辣香锅",
+        "menu_category": "肉类",
+        "menu_subcategory": "Misc",
+        "instructions": [
+            "豆瓣酱炒红油加香料",
+            "炒肉片和菜",
+        ],
     },
     # 海鲜类
     {
@@ -393,6 +426,9 @@ RECIPES = [
         "title": "蒸水蛋",
         "menu_category": "蔬菜类",
         "menu_subcategory": "鸡蛋",
+        "instructions": [
+            "50% water compared to weight of eggs",
+        ],
     },
     {
         "title": "茶叶蛋",
@@ -480,8 +516,27 @@ RECIPES = [
         "title": "steam artichoke",
         "menu_category": "蔬菜类",
         "menu_subcategory": "Misc",
+        "instructions": [
+            "Steam for 30 minutes",
+        ],
+    },
+    # 酱汁类
+    {
+        "title": "鱼香酱",
+        "menu_category": "酱汁类",
+        "instructions": ["葱, 姜, 蒜, 豆瓣酱, 泡椒酱, 料酒,酱油, 醋,白糖, 淀粉,清水"],
+    },
+    {
+        "title": "火锅蘸料",
+        "menu_category": "酱汁类",
+        "instructions": ["酱油, 蚝油, 葱, 姜, 蒜, 香菜, 小米辣, 芝麻, 花生碎, 芝麻油"],
     },
     # 汤类
+    {
+        "title": "鸡高汤",
+        "menu_category": "汤类",
+        "instructions": ["鸡架,老姜片,一大勺料酒"],
+    },
     {
         "title": "土豆胡萝卜玉米排骨汤",
         "menu_category": "汤类",
@@ -540,6 +595,14 @@ RECIPES = [
         "title": "伦教糕",
         "menu_category": "点心",
         "image": "rice_cake.webp",
+        "instructions": [
+            "rice flour 100g",
+            "water 200g",
+            "sugar 55g",
+            "yeast 2g",
+            "warm water to dissolve yeast 15g",
+            "oil 3g",
+        ],
     },
     {
         "title": "萝卜糕",
@@ -549,6 +612,12 @@ RECIPES = [
     {
         "title": "鸡蛋糕",
         "menu_category": "点心",
+        "instructions": [
+            "egg, 4",
+            "all purpose flour, 100g",
+            "sugar, 45g",
+            "lemon juice, few drops",
+        ],
     },
     {
         "title": "肠粉",
@@ -558,8 +627,24 @@ RECIPES = [
     {
         "title": "绿豆糕",
         "menu_category": "点心",
+        "instructions": [
+            "煮烂绿豆:green beans: 80g, water: 160g",
+            "熟粉: 冰糖: 100g, water: 300g",
+            "生粉: 马蹄粉: 100g, water: 140g",
+        ],
     },
     # 主食
+    {
+        "title": "馒头",
+        "menu_category": "点心",
+        "instructions": [
+            "面粉, 500g",
+            "水, 250g",
+            "酵母, 4g",
+            "白糖, 30g",
+            "植物油或者猪油, 7-8g",
+        ],
+    },
     {
         "title": "日本咖喱饭",
         "menu_category": "主食",
@@ -608,9 +693,14 @@ RECIPES = [
         "image": "pizza_0.webp",
     },
     {
-        "title": "手工面条",
+        "title": "手工面条 with pasta machine",
         "menu_category": "主食",
         "image": "handmade_noodle.webp",
+        "instructions": [
+            "35% water to flour",
+            "no need for kneading or waiting",
+            "fold and pass through pasta machine about 10 times until smooth",
+        ],
     },
     {
         "title": "手工饺子",
@@ -624,6 +714,15 @@ RECIPES = [
         "title": "日式面包",
         "menu_category": "主食",
         "image": "japanese_bread_0.webp",
+        "instructions": [
+            "汤种: bread flour: 20g, water: 100g, bread flour: 250g",
+            "yeast: 4g, salt: 3.75g, egg: 38g, honey: 30g, cream: 35g, milk: 23g, butter: 18g,"
+            "dissolve yeast and sugar in water",
+            "optionally wait for 20 - 60 minutes before kneading to let gluten develops automatically",
+            "knead bread for 20 minutes, add butter at the 10 minutes mark",
+            "60 minutes proof + optionally 15 minutes wait + 60 minutes proof",
+            "bake with 180 degree for 25 minutes",
+        ],
     },
     # 甜品
     {
@@ -657,6 +756,21 @@ RECIPES = [
         "menu_category": "饮品",
         "instructions": [
             "桂花,枸杞,雪梨干,切片红枣,龙眼干",
+        ],
+    },
+    {
+        "title": "绿豆沙",
+        "menu_category": "饮品",
+        "instructions": [
+            "绿豆, 150克",
+            "片糖, 一块约100克",
+            "陈皮, 一片约2克",
+            "姜片, 一块约4克",
+            "清水, 1.5升",
+            "取一碗温水浸泡陈皮",
+            "闷豆: 水开关火 with lids on 闷 10分钟",
+            "add 陈皮, 姜片 simmer for 75 minutes",
+            "add 片糖 for another 5 minutes",
         ],
     },
     {
