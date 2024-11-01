@@ -2,7 +2,6 @@ from chalice import Chalice, Response
 from base64 import b64encode
 
 app = Chalice(app_name="helloworld")
-app.debug = True
 
 
 @app.route("/")
@@ -23,6 +22,29 @@ def recipe(title_id):
         if to_id(recipe["title"]) == title_id:
             html = recipe_page(recipe)
             return response_html(html)
+
+
+@app.route("/gallery")
+def gallery():
+    html = gallery_page(RECIPES)
+    return response_html(html)
+
+
+def gallery_page(recipes) -> str:
+    gallery_html = ""
+    recipes_with_image = [i for i in recipes if "image" in i]
+    for recipe in recipes_with_image:
+        gallery_html += f"<h1>{recipe['title']}</h1>"
+        gallery_html += f"""
+            <img class='gallery_image' loading='lazy' src='https://menu-app-tiger.s3.eu-west-2.amazonaws.com/public/{recipe['image']}' alt='{recipe['title']}'>
+        """
+
+    webpage_body = f"""
+        <body>
+            {gallery_html}
+        </body>
+    """
+    return WEBPAGE_START + webpage_body + WEBPAGE_END
 
 
 def recipe_page(recipe) -> str:
@@ -78,11 +100,11 @@ def menu_page(recipes) -> str:
         if menu_subcategory != last_menu_subcategory:
             # menu_html += f"<h4>{menu_subcategory}</h4>"
             if last_menu_subcategory is not None:
-                menu_html += f"<br>"
+                menu_html += "<br>"
 
         title = recipe["title"]
         if "instructions" in recipe:
-            link = f"/api/recipes/{to_id(recipe['title'])}"
+            link = f"/recipes/{to_id(recipe['title'])}"
             menu_html += f"<a href='{link}'>{title}</a><p>, </p>"
         else:
             menu_html += f"<p>{title}, </p>"
@@ -142,29 +164,20 @@ WEBPAGE_START = """
             p, a {
                 display: inline;
             }
+            .gallery_image {
+                max-width: 100%;
+            }
         </style>
         <nav>
-            <a href="/api/">Menu</a>
-            <a href="/api/recipes">Recipes</a>
+            <a href="/">Menu</a>
+            <a href="/recipes">Recipes</a>
+            <a href="/gallery">Gallery</a>
         </nav>
     </head>
     """
 WEBPAGE_END = "</html>"
 
 RECIPES = [
-    # 前菜
-    {
-        "title": "西班牙烘蛋",
-        "menu_category": "前菜",
-    },
-    {
-        "title": "韩式海鲜泡菜饼",
-        "menu_category": "前菜",
-    },
-    {
-        "title": "日式土豆泥沙拉",
-        "menu_category": "前菜",
-    },
     # 肉类
     {
         "title": "泰国打抛猪肉",
@@ -183,21 +196,25 @@ RECIPES = [
         "title": "蜜汁叉烧",
         "menu_category": "肉类",
         "menu_subcategory": "猪",
+        "image": "char-siew-with-honey-sause.webp",
     },
     {
         "title": "梅菜蒸肉饼",
         "menu_category": "肉类",
         "menu_subcategory": "猪",
+        "image": "%E6%A2%85%E8%8F%9C%E8%92%B8%E8%82%89%E9%A5%BC.webp",
     },
     {
         "title": "酸菜炖排骨",
         "menu_category": "肉类",
         "menu_subcategory": "猪",
+        "image": "suan-cai-dun-pai-gu.webp",
     },
     {
         "title": "咕噜肉",
         "menu_category": "肉类",
         "menu_subcategory": "猪",
+        "image": "sweet_and_sour_chicken.webp",
     },
     {
         "title": "炸猪扒",
@@ -213,21 +230,25 @@ RECIPES = [
         "title": "口水鸡",
         "menu_category": "肉类",
         "menu_subcategory": "鸡",
+        "image": "koushui-chicken.webp",
     },
     {
         "title": "啤酒鸡",
         "menu_category": "肉类",
         "menu_subcategory": "鸡",
+        "image": "beer-chicken.webp",
     },
     {
         "title": "钵钵鸡",
         "menu_category": "肉类",
         "menu_subcategory": "鸡",
+        "image": "sicuan-chili-chicken.webp",
     },
     {
         "title": "可乐鸡翅",
         "menu_category": "肉类",
         "menu_subcategory": "鸡",
+        "image": "chicken-wing-with-cola-curry.webp",
     },
     {
         "title": "香菇蒸鸡",
@@ -249,11 +270,13 @@ RECIPES = [
         "title": "油封鸭",
         "menu_category": "肉类",
         "menu_subcategory": "鸭",
+        "image": "duck_confit.webp",
     },
     {
         "title": "土豆焖鸭",
         "menu_category": "肉类",
         "menu_subcategory": "鸭",
+        "image": "potato-with-duck.webp",
     },
     {
         "title": "酸梅鸭",
@@ -264,6 +287,11 @@ RECIPES = [
         "title": "烤箱烧烤羊排",
         "menu_category": "肉类",
         "menu_subcategory": "羊",
+        "instructions": [
+            "小丑娃半包腌4个羊排，腌越久越好",
+            "热锅每边煎三分钟至金黄",
+            "烤箱风扇180度烤10分钟",
+        ],
     },
     {
         "title": "孜然羊肉",
@@ -274,6 +302,16 @@ RECIPES = [
         "title": "红烧牛肉",
         "menu_category": "肉类",
         "menu_subcategory": "牛",
+        "instructions": [
+            "材料：short rib 或 牛腩",
+            "泡水30分钟出血水",
+            "焯水",
+            "纸巾擦干",
+            "炒红油+香料",
+            "炒牛肉",
+            "高压锅压30分钟",
+            "最后可加土豆胡萝卜压6分钟",
+        ],
     },
     {
         "title": "水煮牛肉",
@@ -304,10 +342,12 @@ RECIPES = [
     {
         "title": "广式蒸鱼",
         "menu_category": "海鲜类",
+        "image": "steam-fish.webp",
     },
     {
         "title": "剁椒蒸鱼柳",
         "menu_category": "海鲜类",
+        "image": "steam-fish-with-chopped-chili.webp",
     },
     {
         "title": "酸菜鱼",
@@ -320,10 +360,12 @@ RECIPES = [
     {
         "title": "蒜蓉扇贝",
         "menu_category": "海鲜类",
+        "image": "garlic_scallop.webp",
     },
     {
         "title": "爆炒花甲",
         "menu_category": "海鲜类",
+        "image": "fried-clam.webp",
     },
     # 蔬菜类
     {
@@ -335,6 +377,7 @@ RECIPES = [
         "title": "鱼香茄子",
         "menu_category": "蔬菜类",
         "menu_subcategory": "茄子",
+        "image": "%E9%B1%BC%E9%A6%99%E8%8C%84%E5%AD%90.webp",
     },
     {
         "title": "日式茄子",
@@ -365,6 +408,7 @@ RECIPES = [
         "title": "番茄炒蛋",
         "menu_category": "蔬菜类",
         "menu_subcategory": "鸡蛋",
+        "image": "tomato-with-egg.webp",
     },
     {
         "title": "韭黄炒蛋",
@@ -390,6 +434,7 @@ RECIPES = [
         "title": "干锅花菜",
         "menu_category": "蔬菜类",
         "menu_subcategory": "Misc",
+        "image": "%E5%B9%B2%E9%94%85%E8%8A%B1%E8%8F%9C.webp",
     },
     {
         "title": "干锅卷心菜",
@@ -400,6 +445,7 @@ RECIPES = [
         "title": "腐乳通菜心",
         "menu_category": "蔬菜类",
         "menu_subcategory": "Misc",
+        "image": "fermented-bean-curd-with-morning-glory.webp",
     },
     {
         "title": "炒生菜",
@@ -410,21 +456,25 @@ RECIPES = [
         "title": "西班牙小辣椒",
         "menu_category": "蔬菜类",
         "menu_subcategory": "Misc",
+        "image": "%E8%A5%BF%E7%8F%AD%E7%89%99%E5%B0%8F%E8%BE%A3%E6%A4%92.webp",
     },
     {
         "title": "干煸豆角肉末",
         "menu_category": "蔬菜类",
         "menu_subcategory": "Misc",
+        "image": "stir-fry-beans-with-mince.webp",
     },
     {
         "title": "麻婆豆腐",
         "menu_category": "蔬菜类",
         "menu_subcategory": "Misc",
+        "image": "sicuan-chili-tofu.webp",
     },
     {
         "title": "老奶洋芋",
         "menu_category": "蔬菜类",
         "menu_subcategory": "Misc",
+        "image": "spiced-mashed-potatoes.webp",
     },
     {
         "title": "steam artichoke",
@@ -439,6 +489,7 @@ RECIPES = [
     {
         "title": "赤小豆猪肉汤",
         "menu_category": "汤类",
+        "image": "pork-with-red-beans-soup.webp",
     },
     {
         "title": "鸡汤",
@@ -447,6 +498,7 @@ RECIPES = [
     {
         "title": "大酱汤",
         "menu_category": "汤类",
+        "image": "korean-doenjang-jjigae.webp",
     },
     {
         "title": "关东煮",
@@ -455,14 +507,29 @@ RECIPES = [
     {
         "title": "鱼汤",
         "menu_category": "汤类",
+        "image": "fish-soup.webp",
     },
     {
         "title": "罗宋汤",
         "menu_category": "汤类",
+        "image": "beef-potato-and-tomato-soup.webp",
     },
     {
         "title": "海鲜冬阴功汤",
         "menu_category": "汤类",
+    },
+    # 前菜
+    {
+        "title": "西班牙烘蛋",
+        "menu_category": "前菜",
+    },
+    {
+        "title": "韩式海鲜泡菜饼",
+        "menu_category": "前菜",
+    },
+    {
+        "title": "日式土豆泥沙拉",
+        "menu_category": "前菜",
     },
     # 点心
     {
@@ -472,18 +539,21 @@ RECIPES = [
     {
         "title": "伦教糕",
         "menu_category": "点心",
+        "image": "rice_cake.webp",
     },
     {
         "title": "萝卜糕",
         "menu_category": "点心",
+        "image": "white_carrot_cake.webp",
     },
     {
         "title": "鸡蛋糕",
         "menu_category": "点心",
     },
     {
-        "title": "鸡蛋肠粉",
+        "title": "肠粉",
         "menu_category": "点心",
+        "image": "chang_fen.webp",
     },
     {
         "title": "绿豆糕",
@@ -493,14 +563,17 @@ RECIPES = [
     {
         "title": "日本咖喱饭",
         "menu_category": "主食",
+        "image": "japanese-curry.webp",
     },
     {
         "title": "卤肉饭",
         "menu_category": "主食",
+        "image": "braised-pork-rice.webp",
     },
     {
         "title": "韩国拌饭",
         "menu_category": "主食",
+        "image": "bibimbap.webp",
     },
     {
         "title": "炒米粉",
@@ -509,6 +582,7 @@ RECIPES = [
     {
         "title": "越南粉",
         "menu_category": "主食",
+        "image": "pho-0.webp",
     },
     {
         "title": "咖喱奶油乌冬",
@@ -521,18 +595,22 @@ RECIPES = [
     {
         "title": "蚝粥",
         "menu_category": "主食",
+        "image": "oyster-porridge.webp",
     },
     {
         "title": "汉堡",
         "menu_category": "主食",
+        "image": "homemade-burger-1.webp",
     },
     {
         "title": "比萨",
         "menu_category": "主食",
+        "image": "pizza_0.webp",
     },
     {
         "title": "手工面条",
         "menu_category": "主食",
+        "image": "handmade_noodle.webp",
     },
     {
         "title": "手工饺子",
@@ -545,6 +623,7 @@ RECIPES = [
     {
         "title": "日式面包",
         "menu_category": "主食",
+        "image": "japanese_bread_0.webp",
     },
     # 甜品
     {
@@ -570,6 +649,7 @@ RECIPES = [
     {
         "title": "曲奇",
         "menu_category": "甜品",
+        "image": "cookie.webp",
     },
     # 饮品
     {
@@ -594,6 +674,7 @@ RECIPES = [
     {
         "title": "热红酒",
         "menu_category": "饮品",
+        "image": "mulled_wine.webp",
     },
     {
         "title": "奶盖奶茶",
@@ -603,6 +684,7 @@ RECIPES = [
     {
         "title": "包子",
         "menu_category": "早餐",
+        "image": "bao_bun.jpg",
     },
     {
         "title": "煎饺",
@@ -619,6 +701,7 @@ RECIPES = [
     {
         "title": "拌面",
         "menu_category": "早餐",
+        "image": "breakfast-noodle.webp",
     },
     {
         "title": "麦当劳早餐",
