@@ -350,19 +350,6 @@ RECIPES = [
         "menu_subcategory": "Misc",
     },
     {
-        "title": "炸鱼酸菜泡椒麻辣香锅",
-        "menu_category": "肉类",
-        "menu_subcategory": "Misc",
-        "instructions": [
-            "腌鱼",
-            "炸鱼",
-            "豆瓣酱炒红油加香料",
-            "加酸菜泡椒和汁",
-            "加入鱼",
-            "关火加香菜",
-        ],
-    },
-    {
         "title": "麻辣香锅",
         "menu_category": "肉类",
         "menu_subcategory": "Misc",
@@ -399,6 +386,19 @@ RECIPES = [
         "title": "爆炒花甲",
         "menu_category": "海鲜类",
         "image": "fried-clam.webp",
+    },
+    {
+        "title": "炸鱼酸菜泡椒麻辣香锅",
+        "menu_category": "海鲜类",
+        "menu_subcategory": "Misc",
+        "instructions": [
+            "腌鱼",
+            "炸鱼",
+            "豆瓣酱炒红油加香料",
+            "加酸菜泡椒和汁",
+            "加入鱼",
+            "关火加香菜",
+        ],
     },
     # 蔬菜类
     {
