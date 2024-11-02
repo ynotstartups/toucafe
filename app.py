@@ -310,6 +310,16 @@ RECIPES = [
         ],
     },
     {
+        "title": "Slow roast lamb leg",
+        "menu_category": "肉类",
+        "menu_subcategory": "羊",
+        "instructions": [
+            "腌肉",
+            "onion, garlic, rosemary on base",
+            "160度3小时",
+        ],
+    },
+    {
         "title": "红烧牛肉",
         "menu_category": "肉类",
         "menu_subcategory": "牛",
@@ -335,7 +345,7 @@ RECIPES = [
         "menu_subcategory": "牛",
     },
     {
-        "title": "Slow bake beef short rib",
+        "title": "Slow roast beef short rib",
         "menu_category": "肉类",
         "menu_subcategory": "牛",
     },
