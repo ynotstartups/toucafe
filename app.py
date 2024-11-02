@@ -398,6 +398,10 @@ RECIPES = [
         "image": "fried-clam.webp",
     },
     {
+        "title": "清蒸冷冻鲳鱼",
+        "menu_category": "海鲜类",
+    },
+    {
         "title": "炸鱼酸菜泡椒麻辣香锅",
         "menu_category": "海鲜类",
         "menu_subcategory": "Misc",
