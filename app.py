@@ -384,6 +384,14 @@ RECIPES = [
         "menu_category": "海鲜类",
     },
     {
+        "title": "照烧青鱼",
+        "menu_category": "海鲜类",
+        "instructions": [
+            "中火煎每面2分钟",
+            "加照烧汁煮两分钟至汁水黏稠",
+        ],
+    },
+    {
         "title": "虾仁滑蛋",
         "menu_category": "海鲜类",
     },
@@ -544,6 +552,13 @@ RECIPES = [
         "title": "火锅蘸料",
         "menu_category": "酱汁类",
         "instructions": ["酱油, 蚝油, 葱, 姜, 蒜, 香菜, 小米辣, 芝麻, 花生碎, 芝麻油"],
+    },
+    {
+        "title": "照烧汁",
+        "menu_category": "酱汁类",
+        "instructions": [
+            "一勺半蜂蜜，一勺生抽，一勺老抽，一勺耗油，一勺米酒，两勺水，中火煮至粘稠"
+        ],
     },
     # 汤类
     {
