@@ -164,6 +164,9 @@ WEBPAGE_START = """
             p, a {
                 display: inline;
             }
+            a, a:visited, a:hover, a:active {
+                color: #0000EE;
+            }
             .gallery_image {
                 max-width: 100%;
             }
