@@ -54,7 +54,6 @@ def recipe_page(recipe) -> str:
     webpage_body = f"""
         <body>
             <h1>{recipe["title"]}</h1>
-            <h2>步骤</h2>
             <ul>
                 {instructions_lis_html}
             </ul>
@@ -158,6 +157,7 @@ WEBPAGE_START = """
             }
             p, a {
                 display: inline;
+                word-break: keep-all;
             }
             a, a:visited, a:hover, a:active {
                 color: #0000EE;
