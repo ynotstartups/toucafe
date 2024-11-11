@@ -36,7 +36,7 @@ def gallery_page(recipes) -> str:
     for recipe in recipes_with_image:
         gallery_html += f"<h1>{recipe['title']}</h1>"
         gallery_html += f"""
-            <img class='gallery_image' loading='lazy' src='https://menu-app-tiger.s3.eu-west-2.amazonaws.com/public/{recipe['image']}' alt='{recipe['title']}'>
+            <img loading='lazy' src='https://menu-app-tiger.s3.eu-west-2.amazonaws.com/public/{recipe['image']}' alt='{recipe['title']}'>
         """
 
     webpage_body = f"""
@@ -68,7 +68,6 @@ def recipes_page(recipes) -> str:
     recipes_with_instructions = [i for i in recipes if "instructions" in i]
     for recipe in recipes_with_instructions:
         recipes_html += f"<h1>{recipe['title']}</h1>"
-        recipes_html += "<h2>步骤</h2>"
         for instruction in recipe["instructions"]:
             recipes_html += f"<li>{instruction}</li>"
 
@@ -140,14 +139,11 @@ WEBPAGE_START = """
         <title>菜单</title>
         <style>
             body {
-                font-family: Arial, sans-serif;
+                font-family: system,-apple-system,".SFNSText-Regular","San Francisco",Roboto,"Segoe UI","Helvetica Neue","Lucida Grande",sans-serif;
                 max-width: 600px;
                 margin: 0 auto;
                 padding: 20px;
                 line-height: 1.6;
-            }
-            h1, h2 {
-                color: #333;
             }
             nav {
                 display: flex;
@@ -159,7 +155,6 @@ WEBPAGE_START = """
             }
             li::before {
                 content: "• ";
-                color: #FF6347;
             }
             p, a {
                 display: inline;
@@ -167,7 +162,7 @@ WEBPAGE_START = """
             a, a:visited, a:hover, a:active {
                 color: #0000EE;
             }
-            .gallery_image {
+            img {
                 max-width: 100%;
             }
         </style>
