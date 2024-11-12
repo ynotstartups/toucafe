@@ -831,17 +831,9 @@ RECIPES = [
         "menu_category": "饮品",
     },
     {
-        "title": "越南热咖啡",
-        "menu_category": "饮品",
-    },
-    {
         "title": "热红酒",
         "menu_category": "饮品",
         "image": "mulled_wine.webp",
-    },
-    {
-        "title": "奶盖奶茶",
-        "menu_category": "饮品",
     },
     # 早餐
     {
@@ -883,23 +875,11 @@ RECIPES = [
         "menu_category": "早餐",
     },
     {
-        "title": "小米粥",
-        "menu_category": "早餐",
-    },
-    {
-        "title": "北非蛋",
-        "menu_category": "早餐",
-    },
-    {
         "title": "牛油果三文鱼面包",
         "menu_category": "早餐",
     },
     {
         "title": "金枪鱼玉米法棍",
-        "menu_category": "早餐",
-    },
-    {
-        "title": "冬阴功炒粉",
         "menu_category": "早餐",
     },
 ]
