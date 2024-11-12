@@ -434,6 +434,20 @@ RECIPES = [
     },
     # 蔬菜类
     {
+        "title": "红烧蘑菇",
+        "menu_category": "蔬菜类",
+        "menu_subcategory": "蘑菇",
+        "instructions": [
+            "酱:酱油,耗油,糖,水,淀粉",
+            "切半头蒜末",
+            "蘑菇划十字",
+            "焯水",
+            "煎两面至金黄",
+            "放入蒜末炒香",
+            "加酱炒至粘稠",
+        ],
+    },
+    {
         "title": "蒸茄子炒菜",
         "menu_category": "蔬菜类",
         "menu_subcategory": "茄子",
