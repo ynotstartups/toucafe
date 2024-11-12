@@ -322,7 +322,7 @@ RECIPES = [
         "menu_category": "肉类",
         "menu_subcategory": "牛",
         "instructions": [
-            "材料：short rib 或 牛腩",
+            "材料：牛肋骨 short rib, 牛腩 Brisket, flank",
             "泡水30分钟出血水",
             "焯水",
             "纸巾擦干",
@@ -571,6 +571,16 @@ RECIPES = [
         ],
     },
     # 汤类
+    {
+        "title": "花生莲藕排骨汤",
+        "menu_category": "汤类",
+        "instructions": [
+            "莲藕300克, 去皮花生60克, 生姜两片, 红枣一个, 猪排骨600克, 水1000-1500毫升",
+            "排骨焯水",
+            "大火煮10分钟",
+            "转小火煮两小时",
+        ],
+    },
     {
         "title": "鸡高汤",
         "menu_category": "汤类",
