@@ -1,5 +1,5 @@
 from chalice import Chalice, Response
-from base64 import b64encode
+from base64 import urlsafe_b64encode
 
 app = Chalice(app_name="helloworld")
 
@@ -115,7 +115,7 @@ def menu_page(recipes) -> str:
 
 
 def to_id(title: str) -> str:
-    return b64encode(title.encode("utf-8")).decode("utf-8")
+    return urlsafe_b64encode(title.encode("utf-8")).decode("utf-8")
 
 
 def response_html(html):
