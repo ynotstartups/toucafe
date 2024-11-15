@@ -136,6 +136,7 @@ WEBPAGE_START = """
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>菜单</title>
+        <link rel="icon" href="https://d392viioakuayd.cloudfront.net/public/favicon.webp">
         <style>
             body {
                 font-family: system,-apple-system,".SFNSText-Regular","San Francisco",Roboto,"Segoe UI","Helvetica Neue","Lucida Grande",sans-serif;
