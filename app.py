@@ -36,7 +36,7 @@ def gallery_page(recipes) -> str:
     for recipe in recipes_with_image:
         gallery_html += f"<h1>{recipe['title']}</h1>"
         gallery_html += f"""
-            <img loading='lazy' src='https://menu-app-tiger.s3.eu-west-2.amazonaws.com/public/{recipe['image']}' alt='{recipe['title']}'>
+            <img loading='lazy' src='https://d392viioakuayd.cloudfront.net/public/{recipe['image']}' alt='{recipe['title']}'>
         """
 
     webpage_body = f"""
