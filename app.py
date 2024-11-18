@@ -403,6 +403,10 @@ RECIPES = [
         ],
     },
     {
+        "title": "红烧非洲鲫鱼",
+        "menu_category": "海鲜类",
+    },
+    {
         "title": "虾仁滑蛋",
         "menu_category": "海鲜类",
     },
