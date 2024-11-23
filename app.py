@@ -210,15 +210,28 @@ RECIPES = [
         "image": "suan-cai-dun-pai-gu.webp",
     },
     {
-        "title": "咕噜肉",
-        "menu_category": "肉类",
-        "menu_subcategory": "猪",
-        "image": "sweet_and_sour_chicken.webp",
-    },
-    {
         "title": "炸猪扒",
         "menu_category": "肉类",
         "menu_subcategory": "猪",
+    },
+    {
+        "title": "咕噜鸡腿肉",
+        "menu_category": "肉类",
+        "menu_subcategory": "鸡",
+        "image": "sweet_and_sour_chicken.webp",
+        "instructions": [
+            "各色甜椒两个,菠萝半个,红醋半碗,番茄酱半碗,白糖1/4碗,蒜蓉,鸡腿肉",
+            "酸甜汁: 番茄汁,红醋,白糖",
+            "菠萝盐水泡半小时",
+            "青红黄椒切成梯形",
+            "鸡腿肉用盐,料酒,酱油,蛋黄液,腌制20分钟",
+            "鸡腿肉裹生粉放一旁备用",
+            "油八成烧开放,将肉下锅炸至六成熟捞起",
+            "再次下热油锅煎至金黄色",
+            "热锅倒入适量的花生油,爆香蒜蓉后,倒入酸甜汁",
+            "烧开酸甜汁倒入青红黄椒跟菠萝翻炒均匀",
+            "倒入炸好的肉加适量的盐翻炒.淋入水淀粉收汁成粘稠即可出锅",
+        ]
     },
     {
         "title": "葱姜鸡",
@@ -323,7 +336,7 @@ RECIPES = [
         "menu_category": "肉类",
         "menu_subcategory": "牛",
         "instructions": [
-            "材料：牛肋骨 short rib, 牛腩 Brisket, flank",
+            "材料：牛肋骨 short rib, 牛腩 Brisket, flank, 牛舌(高压锅压45分钟)",
             "泡水30分钟出血水",
             "焯水",
             "纸巾擦干",
@@ -393,6 +406,13 @@ RECIPES = [
     {
         "title": "酸菜鱼",
         "menu_category": "海鲜类",
+        "instructions": [
+            "腌鱼: 盐，胡椒粉，白胡椒粉，料酒",
+            "炒香香料，干辣椒，花椒，八角，香叶，冰糖，加酸菜",
+            "加开水煮酸菜汤，加粉条 煮8分钟",
+            "生粉裹鱼 下鱼",
+            "煮5分钟",
+        ],
     },
     {
         "title": "照烧青鱼",
