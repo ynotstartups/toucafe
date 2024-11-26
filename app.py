@@ -54,9 +54,7 @@ def recipe_page(recipe) -> str:
     webpage_body = f"""
         <body>
             <h1>{recipe["title"]}</h1>
-            <ul>
-                {instructions_lis_html}
-            </ul>
+            {instructions_lis_html}
         </body>
     """
     return WEBPAGE_START + webpage_body + WEBPAGE_END
@@ -664,6 +662,15 @@ RECIPES = [
         "title": "罗宋汤",
         "menu_category": "汤类",
         "image": "beef-potato-and-tomato-soup.webp",
+        "instructions": [
+            "牛肉, 番茄, 土豆, 胡萝卜, 洋葱, 芹菜切丁",
+            "牛肉焯水",
+            "黄油煸炒牛肉",
+            "黄油煸炒土豆, 胡萝卜, 洋葱",
+            "黄油炒烂番茄后, 加入番茄酱一起翻炒",
+            "转移全部食材至汤锅, 加入热水",
+            "小火大约1小时30分钟左右 (或高压锅15分钟)，炖汤至粘稠关火",
+        ]
     },
     {
         "title": "海鲜冬阴功汤",
