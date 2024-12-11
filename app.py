@@ -891,6 +891,21 @@ RECIPES = [
     },
     # 早餐
     {
+        "title": "牛油果三文鱼面包",
+        "menu_category": "早餐",
+        "menu_subcategory": "面包",
+    },
+    {
+        "title": "金枪鱼玉米蛋黄酱法棍",
+        "menu_category": "早餐",
+        "menu_subcategory": "面包",
+    },
+    {
+        "title": "肉松蛋黄酱面包",
+        "menu_category": "早餐",
+        "menu_subcategory": "面包",
+    },
+    {
         "title": "包子",
         "menu_category": "早餐",
         "image": "bao_bun.jpg",
@@ -926,14 +941,6 @@ RECIPES = [
     },
     {
         "title": "方便面",
-        "menu_category": "早餐",
-    },
-    {
-        "title": "牛油果三文鱼面包",
-        "menu_category": "早餐",
-    },
-    {
-        "title": "金枪鱼玉米法棍",
         "menu_category": "早餐",
     },
 ]
