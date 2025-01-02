@@ -298,7 +298,7 @@ RECIPES = [
         "menu_category": "肉类",
         "menu_subcategory": "羊",
         "instructions": [
-            "小丑娃半包腌4个羊排,腌越久越好",
+            "小丑娃半包腌4个羊排 (每块羊排大概4g腌肉粉),腌越久越好",
             "热锅每边煎三分钟至金黄",
             "烤箱风扇180度烤10分钟",
         ],
@@ -403,6 +403,14 @@ RECIPES = [
         "title": "广式蒸鱼",
         "menu_category": "海鲜类",
         "image": "steam-fish.webp",
+    },
+    {
+        "title": "广式蒸鱼",
+        "menu_category": "海鲜类",
+        "instructions": [
+            "豆豉，红葱头，辣椒，姜米，陈皮，油炒香,铺在鱼上",
+            "最后加葱花香菜浇热油, 浇蒸鱼豉油",
+        ],
     },
     {
         "title": "剁椒蒸鱼柳",
@@ -597,6 +605,15 @@ RECIPES = [
             "Steam for 30 minutes",
         ],
     },
+    {
+        "title": "豆角沙拉",
+        "menu_category": "蔬菜类",
+        "menu_subcategory": "Misc",
+        "instructions": [
+            "豆角开水煮7分钟，芝麻沙拉酱，鸡蛋，橙子",
+            "credit: Ginger",
+        ],
+    },
     # 酱汁类
     {
         "title": "鱼香酱",
@@ -676,6 +693,10 @@ RECIPES = [
         "title": "海鲜冬阴功汤",
         "menu_category": "汤类",
     },
+    {
+        "title": "平菇虾米蛋花汤",
+        "menu_category": "汤类",
+    },
     # 前菜
     {
         "title": "西班牙烘蛋",
@@ -712,7 +733,7 @@ RECIPES = [
         "menu_category": "点心",
         "image": "white_carrot_cake.webp",
         "instructions": [
-            "白萝卜 800克, 粘米粉 120克, 澄粉 40克, 水 180克, 盐 7克, 腊肠 1根, 虾米 一半腊肠份量, 糖 3克, 胡椒粉 3克",
+            "白萝卜 800克, 粘米粉 120克, 澄粉 40克, 水 180克, 盐 7克, 腊肠 1根, 虾米 一半腊肠份量, 糖 3克, 胡椒粉 0.5克",
             "萝卜切丝, 腊肉切丁, 虾米切丁",
             "用粘米粉, 澄粉, 盐, 糖, 胡椒粉, 水, 搅拌均匀备用",
             "开锅炒香腊肠, 虾米盛起备用",
@@ -776,6 +797,13 @@ RECIPES = [
     {
         "title": "炒米粉",
         "menu_category": "主食",
+    },
+    {
+        "title": "湿炒米粉",
+        "menu_category": "主食",
+        "instructions": [
+            "星州米粉, 洋葱，萝卜，豆芽，炒香配料, 用水闷熟",
+        ],
     },
     {
         "title": "越南粉",
@@ -872,6 +900,13 @@ RECIPES = [
         ],
     },
     {
+        "title": "好喝cider",
+        "menu_category": "饮品",
+        "instructions": [
+            "好喝茶配方,加1L cider,不需加额外的糖",
+        ],
+    },
+    {
         "title": "绿豆沙",
         "menu_category": "饮品",
         "instructions": [
@@ -914,6 +949,13 @@ RECIPES = [
         "title": "肉松蛋黄酱面包",
         "menu_category": "早餐",
         "menu_subcategory": "面包",
+    },
+    {
+        "title": "温泉蛋",
+        "menu_category": "早餐",
+        "instructions": [
+            "slow fire cook until medium bubble and turn off fire for 2 minutes",
+        ],
     },
     {
         "title": "包子",
