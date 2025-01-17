@@ -213,6 +213,11 @@ RECIPES = [
         "menu_subcategory": "猪",
     },
     {
+        "title": "尖椒酿肉",
+        "menu_category": "肉类",
+        "menu_subcategory": "猪",
+    },
+    {
         "title": "咕噜鸡腿肉",
         "menu_category": "肉类",
         "menu_subcategory": "鸡",
@@ -405,7 +410,7 @@ RECIPES = [
         "image": "steam-fish.webp",
     },
     {
-        "title": "广式蒸鱼",
+        "title": "豆豉广式蒸鱼",
         "menu_category": "海鲜类",
         "instructions": [
             "豆豉，红葱头，辣椒，姜米，陈皮，油炒香,铺在鱼上",
