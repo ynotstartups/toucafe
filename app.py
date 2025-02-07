@@ -702,6 +702,10 @@ RECIPES = [
         "title": "平菇虾米蛋花汤",
         "menu_category": "汤类",
     },
+    {
+        "title": "白萝卜虾米花生汤",
+        "menu_category": "汤类",
+    },
     # 前菜
     {
         "title": "西班牙烘蛋",
