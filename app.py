@@ -955,6 +955,13 @@ RECIPES = [
     {
         "title": "手冲咖啡",
         "menu_category": "饮品",
+        "instructions": [
+            "18g coffee beans",
+            "150g water",
+            "110g milk",
+            "60g coffee + all milk",
+            "60g coffee + 60g water",
+        ],
     },
     {
         "title": "热红酒",
