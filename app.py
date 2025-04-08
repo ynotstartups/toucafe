@@ -724,6 +724,76 @@ RECIPES = [
         "title": "白萝卜虾米花生汤",
         "menu_category": "汤类",
     },
+    # 早餐
+    {
+        "title": "日式鸡蛋三文治",
+        "menu_category": "早餐",
+        "menu_subcategory": "面包",
+        "instructions": [
+            "Tomoto, lettuce, ham, egg (boiled and stop the fire for 5 minutes)",
+            "yellow mustard, japanese mayonnaise, " "salt, pepper",
+        ],
+    },
+    {
+        "title": "牛油果三文鱼面包",
+        "menu_category": "早餐",
+        "menu_subcategory": "面包",
+    },
+    {
+        "title": "金枪鱼玉米蛋黄酱法棍",
+        "menu_category": "早餐",
+        "menu_subcategory": "面包",
+    },
+    {
+        "title": "肉松蛋黄酱面包",
+        "menu_category": "早餐",
+        "menu_subcategory": "面包",
+    },
+    {
+        "title": "温泉蛋",
+        "menu_category": "早餐",
+        "instructions": [
+            "slow fire cook until medium bubble and turn off fire for 2 minutes",
+        ],
+    },
+    {
+        "title": "包子",
+        "menu_category": "早餐",
+        "image": "bao_bun.jpg",
+    },
+    {
+        "title": "煎饺",
+        "menu_category": "早餐",
+    },
+    {
+        "title": "炒粉",
+        "menu_category": "早餐",
+    },
+    {
+        "title": "英式玛芬",
+        "menu_category": "早餐",
+    },
+    {
+        "title": "拌面",
+        "menu_category": "早餐",
+        "image": "breakfast-noodle.webp",
+    },
+    {
+        "title": "麦当劳早餐",
+        "menu_category": "早餐",
+    },
+    {
+        "title": "土豆饼",
+        "menu_category": "早餐",
+    },
+    {
+        "title": "珍珠鸡",
+        "menu_category": "早餐",
+    },
+    {
+        "title": "方便面",
+        "menu_category": "早餐",
+    },
     # 前菜
     {
         "title": "西班牙烘蛋",
@@ -967,66 +1037,5 @@ RECIPES = [
         "title": "热红酒",
         "menu_category": "饮品",
         "image": "mulled_wine.webp",
-    },
-    # 早餐
-    {
-        "title": "牛油果三文鱼面包",
-        "menu_category": "早餐",
-        "menu_subcategory": "面包",
-    },
-    {
-        "title": "金枪鱼玉米蛋黄酱法棍",
-        "menu_category": "早餐",
-        "menu_subcategory": "面包",
-    },
-    {
-        "title": "肉松蛋黄酱面包",
-        "menu_category": "早餐",
-        "menu_subcategory": "面包",
-    },
-    {
-        "title": "温泉蛋",
-        "menu_category": "早餐",
-        "instructions": [
-            "slow fire cook until medium bubble and turn off fire for 2 minutes",
-        ],
-    },
-    {
-        "title": "包子",
-        "menu_category": "早餐",
-        "image": "bao_bun.jpg",
-    },
-    {
-        "title": "煎饺",
-        "menu_category": "早餐",
-    },
-    {
-        "title": "炒粉",
-        "menu_category": "早餐",
-    },
-    {
-        "title": "英式玛芬",
-        "menu_category": "早餐",
-    },
-    {
-        "title": "拌面",
-        "menu_category": "早餐",
-        "image": "breakfast-noodle.webp",
-    },
-    {
-        "title": "麦当劳早餐",
-        "menu_category": "早餐",
-    },
-    {
-        "title": "土豆饼",
-        "menu_category": "早餐",
-    },
-    {
-        "title": "珍珠鸡",
-        "menu_category": "早餐",
-    },
-    {
-        "title": "方便面",
-        "menu_category": "早餐",
     },
 ]
