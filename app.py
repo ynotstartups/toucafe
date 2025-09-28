@@ -177,6 +177,14 @@ WEBPAGE_END = "</html>"
 RECIPES = [
     # 肉类
     {
+        "title": "回锅肉",
+        "menu_category": "肉类",
+        "menu_subcategory": "猪",
+        "instructions": [
+            "大葱，洋葱，青椒",
+        ],
+    },
+    {
         "title": "泰国打抛猪肉",
         "menu_category": "肉类",
         "menu_subcategory": "猪",
@@ -748,6 +756,13 @@ RECIPES = [
         "title": "肉松蛋黄酱面包",
         "menu_category": "早餐",
         "menu_subcategory": "面包",
+    },
+    {
+        "title": "Omelette",
+        "menu_category": "早餐",
+        "instructions": [
+            "菠菜, 鸡胸肉，玉米猪肉水饺，菌菇水饺",
+        ],
     },
     {
         "title": "温泉蛋",
